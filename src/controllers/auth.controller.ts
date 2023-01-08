@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import User, { IUser } from "../models/User";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req: Request, res: Response) => {
 
@@ -11,7 +12,10 @@ export const signup = async (req: Request, res: Response) => {
     });
     const userSaved = await user.save();
 
-    res.json(userSaved);
+    // User Token
+    const userToken: string = jwt.sign({ id: userSaved._id }, process.env.JWT_SECRET_KEY || 'string_token');
+
+    res.json(userToken);
 }
 
 export const signin = (req: Request, res: Response) => {
