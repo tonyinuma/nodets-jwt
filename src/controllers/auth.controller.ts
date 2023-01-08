@@ -38,6 +38,8 @@ export const signin = async (req: Request, res: Response) => {
     res.header('auth-token', userToken).json(user);
 }
 
-export const profile = (req: Request, res: Response) => {
-    res.send('profile');
+export const profile = async (req: Request, res: Response) => {
+    const user = await User.findById(req.body.userId, { password: 0 });
+    if (!user) return res.status(404).json('User not Found');
+    res.json(user);
 }
