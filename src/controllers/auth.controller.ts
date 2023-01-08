@@ -15,10 +15,12 @@ export const signup = async (req: Request, res: Response) => {
 
     const userSaved = await user.save();
 
+    const { _id, username, email } = userSaved;
+
     // User Token
     const userToken: string = jwt.sign({ id: userSaved._id }, process.env.JWT_SECRET_KEY || 'string_token');
 
-    res.header('auth-token', userToken).json(userSaved);
+    res.header('auth-token', userToken).json({ _id, username, email });
 }
 
 export const signin = async (req: Request, res: Response) => {
@@ -35,7 +37,9 @@ export const signin = async (req: Request, res: Response) => {
         expiresIn: 60 * 60 * 24
     });
 
-    res.header('auth-token', userToken).json(user);
+    const { _id, username, email } = user;
+
+    res.header('auth-token', userToken).json({ _id, username, email });
 }
 
 export const profile = async (req: Request, res: Response) => {
