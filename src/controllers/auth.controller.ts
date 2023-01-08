@@ -1,8 +1,17 @@
 import { Request, Response } from "express"
+import User, { IUser } from "../models/User";
 
+export const signup = async (req: Request, res: Response) => {
 
-export const signup = (req: Request, res: Response) => {
-    res.send('signup');
+    // Saving User
+    const user: IUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+    });
+    const userSaved = await user.save();
+
+    res.json(userSaved);
 }
 
 export const signin = (req: Request, res: Response) => {
