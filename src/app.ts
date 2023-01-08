@@ -13,6 +13,6 @@ app.use(morgan('dev'));
 /**
  * Routes
  */
-app.use(authRoutes);
+app.use('/api/auth', authRoutes);
 
 export default app;
